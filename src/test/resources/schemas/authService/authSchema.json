@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": [
+    "accessToken",
+    "refreshToken",
+    "token",
+    "id",
+    "username",
+    "email",
+    "firstName",
+    "lastName",
+	"image"
+  ],
+  "properties": {
+    "accessToken": {
+      "type": "string"
+    },
+    "refreshToken": {
+      "type": "string"
+    },
+    "token": {
+      "type": "string"
+    },
+    "id": {
+      "type": "integer"
+    },
+    "username": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string"
+    },
+    "firstName": {
+      "type": "string"
+    },
+    "lastName": {
+      "type": "string"
+    },
+    "image": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,118 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "id",
+    "phone",
+    "lastName",
+    "age",
+    "image",
+    "bank",
+    "firstName",
+    "username",
+    "company",
+    "email",
+    "address",
+    "gender"
+  ],
+  "properties": {
+    "id": {
+      "type": "integer"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "lastName": {
+      "type": "string"
+    },
+    "age": {
+      "type": "integer"
+    },
+    "image": {
+      "type": "string",
+      "format": "uri"
+    },
+    "bank": {
+      "type": "object",
+      "required": [
+        "cardNumber",
+        "cardType",
+        "iban",
+        "currency"
+      ],
+      "properties": {
+        "cardNumber": {
+          "type": "string"
+        },
+        "cardType": {
+          "type": "string"
+        },
+        "iban": {
+          "type": "string"
+        },
+        "currency": {
+          "type": "string"
+        }
+      }
+    },
+    "firstName": {
+      "type": "string"
+    },
+    "username": {
+      "type": "string"
+    },
+    "company": {
+      "type": "object",
+      "required": [
+        "title",
+        "name",
+        "department"
+      ],
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "department": {
+          "type": "string"
+        }
+      }
+    },
+    "email": {
+      "type": "string",
+      "format": "email"
+    },
+    "address": {
+      "type": "object",
+      "required": [
+        "city",
+        "postalCode",
+        "street",
+        "state",
+        "country"
+      ],
+      "properties": {
+        "city": {
+          "type": "string"
+        },
+        "postalCode": {
+          "type": "string"
+        },
+        "street": {
+          "type": "string"
+        },
+        "state": {
+          "type": "string"
+        },
+        "country": {
+          "type": "string"
+        }
+      }
+    },
+    "gender": {
+      "type": "string"
+    }
+  }
+}

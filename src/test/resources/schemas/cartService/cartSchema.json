@@ -1,0 +1,69 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer"
+    },
+    "products": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "quantity": {
+            "type": "integer"
+          },
+          "price": {
+            "type": "number"
+          },
+          "id": {
+            "type": "integer"
+          },
+          "title": {
+            "type": "string"
+          },
+          "discountPercentage": {
+            "type": "number"
+          },
+          "total": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "quantity",
+          "price",
+          "id",
+          "title",
+          "discountPercentage",
+          "total"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "totalQuantity": {
+      "type": "integer"
+    },
+    "userId": {
+      "type": "integer"
+    },
+    "totalProducts": {
+      "type": "integer"
+    },
+    "discountedTotal": {
+      "type": "number"
+    },
+    "total": {
+      "type": "number"
+    }
+  },
+  "required": [
+    "id",
+    "products",
+    "totalQuantity",
+    "userId",
+    "totalProducts",
+    "discountedTotal",
+    "total"
+  ],
+  "additionalProperties": false
+}

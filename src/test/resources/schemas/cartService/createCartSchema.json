@@ -1,0 +1,41 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "userID": {
+      "type": "integer"
+    },
+    "products": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "quantity": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "id",
+          "quantity"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "created": {
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "id",
+    "userID",
+    "products",
+    "created"
+  ],
+  "additionalProperties": false
+}

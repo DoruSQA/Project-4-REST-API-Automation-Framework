@@ -1,0 +1,64 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "rating": {
+      "type": "number"
+    },
+    "sku": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "thumbnail": {
+      "type": "string"
+    },
+    "category": {
+      "type": "string"
+    },
+    "stock": {
+      "type": "integer"
+    },
+    "images": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "price": {
+      "type": "number"
+    },
+    "description": {
+      "type": "string"
+    },
+    "discountPercentage": {
+      "type": "number"
+    },
+    "brand": {
+      "type": "string"
+    },
+    "updated": {
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "id",
+    "rating",
+    "sku",
+    "title",
+    "thumbnail",
+    "category",
+    "stock",
+    "images",
+    "price",
+    "description",
+    "discountPercentage",
+    "brand",
+    "updated"
+  ],
+  "additionalProperties": false
+}

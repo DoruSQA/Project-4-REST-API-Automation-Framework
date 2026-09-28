@@ -1,0 +1,73 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "userId",
+    "totalQuantity",
+    "products",
+    "totalProducts",
+    "total",
+    "discountedTotal",
+    "updated"
+  ],
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "userId": {
+      "type": "integer"
+    },
+    "totalQuantity": {
+      "type": "integer"
+    },
+    "products": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "total",
+          "id",
+          "quantity",
+          "price",
+          "title",
+          "discountPercentage"
+        ],
+        "properties": {
+          "total": {
+            "type": "number"
+          },
+          "id": {
+            "type": "integer"
+          },
+          "quantity": {
+            "type": "integer"
+          },
+          "price": {
+            "type": "number"
+          },
+          "title": {
+            "type": "string"
+          },
+          "discountPercentage": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "totalProducts": {
+      "type": "integer"
+    },
+    "total": {
+      "type": "number"
+    },
+    "discountedTotal": {
+      "type": "number"
+    },
+    "updated": {
+      "type": "boolean"
+    }
+  }
+}
