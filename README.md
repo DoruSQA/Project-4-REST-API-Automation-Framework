@@ -51,12 +51,12 @@
 ## Framework Features
 
 - **Modular API Architecture:** Structured API services design.
-- **JSON Schema Validation:** API response schema validation using `Rest Assured JSON Schema Validator`
-- **Response Deserialization:** API response mapping using Jackson
+- **JSON Schema Validation:** API response schema validation using `Rest Assured JSON Schema Validator.`
+- **Response Deserialization:** API response mapping using Jackson.
 - **Test Reporting:** Detailed reports using Extent Reports.
 - **Execution Logging:** Structured execution logs using Logback.
-- Test execution control through **Maven parameters**
-- **GitHub Actions CI:** Two workflows for automated test execution — one manually triggered and one triggered on Pull Requests
+- Test execution control through **Maven parameters.**
+- **GitHub Actions CI:** Two workflows for automated test execution (one manually triggered and one triggered on Pull Requests).
 
 ---
 
