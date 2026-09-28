@@ -32,7 +32,7 @@
 - **Cart**
 <br>Application Under Test: [CodeSmash](https://dummyapi.codesmash.in)
 
-<p align="right"><a href="https://dummyapi.codesmash.in">Application Under Test</a></p>
+<p align="right">Application Under Test: [CodeSmash](https://dummyapi.codesmash.in)</p>
 
 ---
 
