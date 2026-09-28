@@ -7,7 +7,7 @@
 ![Maven](https://img.shields.io/badge/Maven-Build%20Tool-blue)
 ![Jackson](https://img.shields.io/badge/Jackson-JSON%20Mapping-lightgrey)
 ![Lombok](https://img.shields.io/badge/Lombok-Boilerplate%20Reduction-red)
-![CI](https://github.com/DoruSQA/Project-4-REST-API-Automation-Framework.git/badge.svg)
+![CI](https://github.com/DoruSQA/Project-4-REST-API-Automation-Framework/actions/workflows/manual-module-testing.yml/badge.svg)
 
 > **Note:** This project is part of my personal QA Automation portfolio.
 
