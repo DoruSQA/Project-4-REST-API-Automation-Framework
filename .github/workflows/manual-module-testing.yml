@@ -11,6 +11,7 @@ on:
           - Auth
           - Cart
           - Product
+          - Smoke
 
 jobs:
   module-tests:
