@@ -120,7 +120,7 @@ Execution logs are generated using Logback and SLF4J and located in the `logs/` 
 
 <br>
 
-![Logs Preview](docs/loggs-preview.png)
+![Logs Preview](docs/loggs-preview.jpg)
 
 </details>
 
