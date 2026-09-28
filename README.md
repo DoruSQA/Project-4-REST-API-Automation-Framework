@@ -30,7 +30,7 @@
 - **Auth**
 - **Product**
 - **Cart**
- <br> Application Under Test: [CodeSmash](https://dummyapi.codesmash.in)
+<br>Application Under Test: [CodeSmash](https://dummyapi.codesmash.in)
 
 ---
 
