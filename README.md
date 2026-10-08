@@ -25,13 +25,12 @@
 
 ## Overview
 
- This automation framework is built using `Java`, `REST Assured`, `TestNG`, `Maven`, `Jackson` and `Lombok`. <br>The framework automates the following REST API services:
-**Auth**, **Product** and **Cart**.
+ This automation framework is built using **Java, REST Assured, TestNG, Maven and Lombok.** <br>The framework automates the following REST API services:
+- Auth
+- Product
+- Cart
 
-<p align="right">
-  Application Under Test: <a href="https://dummyapi.codesmash.in">CodeSmash</a>
-</p>
-
+Both positive and negative scenarios are automated, including validation and boundary testing.
 ---
 
 <a id="tech-stack"></a>
