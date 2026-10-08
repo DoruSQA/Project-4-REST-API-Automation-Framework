@@ -31,6 +31,7 @@
 - Cart
 
 Both positive and negative scenarios are automated, including validation and boundary testing.
+
 ---
 
 <a id="tech-stack"></a>
