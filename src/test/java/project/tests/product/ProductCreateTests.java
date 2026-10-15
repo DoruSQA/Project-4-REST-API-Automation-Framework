@@ -2,6 +2,7 @@ package project.tests.product;
 
 import org.testng.annotations.Test;
 
+import codesmash.test_metadata.TestCase;
 import io.restassured.response.Response;
 import project.base.BaseService;
 import project.base.BaseTest;
@@ -12,97 +13,94 @@ import project.testdata.model.response.CreateProductPayload;
 import project.testdata.model.response.FailMessagePayload;
 import project.utils.JsonSchema;
 
-public class ProductCreateTests extends BaseTest{
+public class ProductCreateTests extends BaseTest {
 
-	
-	@Test(groups = { "Smoke", "Regression", "Product" }, description = "API_PROD_007: Create product with valid details",
-			dataProvider = "productWithValidDetails", dataProviderClass = TestDataProvider.class)
-	public void createProductWithValidDetails(ProductUser productWithValidDetails) {
-		
-		// Send request
-		Response httpAuthResponse = productService.createProduct(productWithValidDetails);
+    @Test(groups = {"Smoke", "Regression", "Product"},
+          dataProvider = "productWithValidDetails", dataProviderClass = TestDataProvider.class)
+    @TestCase(id = "API_PROD_007", name = "Create product with valid details")
+    public void createProductWithValidDetails(ProductUser productWithValidDetails) {
 
-		// Validate status code and response headers via response specification
-		httpAuthResponse.then().spec(BaseService.createdResponse());
+        // Send request
+        Response httpAuthResponse = productService.createProduct(productWithValidDetails);
 
-		// Deserialization
-		CreateProductPayload productCreatedPayload = httpAuthResponse.as(CreateProductPayload.class);
+        // Validate status code and response headers via response specification
+        httpAuthResponse.then().spec(BaseService.createdResponse());
 
-		// Validate JSON schema
-		JsonSchema.validate(httpAuthResponse, ProductExpected.CREATE_PRODUCT_SCHEMA_PATH);
+        // Deserialization
+        CreateProductPayload productCreatedPayload = httpAuthResponse.as(CreateProductPayload.class);
 
-		// Validate response body
-		softAssertion.assertTrue(productCreatedPayload.isCreated(), "Product status is not 'true'");
-		softAssertion.assertNotNull(productCreatedPayload.getId(), "Product ID is missing");
-		softAssertion.assertAll();
+        // Validate JSON schema
+        JsonSchema.validate(httpAuthResponse, ProductExpected.CREATE_PRODUCT_SCHEMA_PATH);
 
-	}
-	
-	@Test(groups = {"Regression", "Product" }, description = "API_PROD_08: Create product with stock zero",
-			dataProvider = "productWithStockZero", dataProviderClass = TestDataProvider.class)
-	public void createProductWithZeroStock(ProductUser productWithStockZero) {
-		
-		// Send request
-		Response httpAuthResponse = productService.createProduct(productWithStockZero);
+        // Validate response body
+        softAssertion.assertTrue(productCreatedPayload.isCreated(), "Product status is not 'true'");
+        softAssertion.assertNotNull(productCreatedPayload.getId(), "Product ID is missing");
+        softAssertion.assertAll();
+    }
 
-		// Validate status code and response headers
-		httpAuthResponse.then().spec(BaseService.badRequestResponse());
+    @Test(groups = {"Regression", "Product"},
+          dataProvider = "productWithStockZero", dataProviderClass = TestDataProvider.class)
+    @TestCase(id = "API_PROD_008", name = "Create product with stock zero")
+    public void createProductWithZeroStock(ProductUser productWithStockZero) {
 
-		// Deserialization
-		FailMessagePayload failMsgPayload = httpAuthResponse.as(FailMessagePayload.class);
+        // Send request
+        Response httpAuthResponse = productService.createProduct(productWithStockZero);
 
-		// Validate JSON schema
-		JsonSchema.validate(httpAuthResponse, ProductExpected.ERROR_SCHEMA_PATH);
+        // Validate status code and response headers
+        httpAuthResponse.then().spec(BaseService.badRequestResponse());
 
-		// Validate response body
-		softAssertion.assertEquals(failMsgPayload.getMessage(), ProductExpected.STOCK_GRATHER_THAN_0);
-		softAssertion.assertAll();
+        // Deserialization
+        FailMessagePayload failMsgPayload = httpAuthResponse.as(FailMessagePayload.class);
 
-	}
-	
-	@Test(groups = {"Regression", "Product" }, description = "API_PROD_09: Create product with empty title",
-			dataProvider = "productWithEmptyTitle", dataProviderClass = TestDataProvider.class)
-	public void createProductWithEmptyTitle(ProductUser productWithEmptyTitle) {
-		
-		// Send request
-		Response httpAuthResponse = productService.createProduct(productWithEmptyTitle);
+        // Validate JSON schema
+        JsonSchema.validate(httpAuthResponse, ProductExpected.ERROR_SCHEMA_PATH);
 
-		// Validate status code and response headers
-		httpAuthResponse.then().spec(BaseService.badRequestResponse());
+        // Validate response body
+        softAssertion.assertEquals(failMsgPayload.getMessage(), ProductExpected.STOCK_GRATHER_THAN_0);
+        softAssertion.assertAll();
+    }
 
-		// Deserialization
-		FailMessagePayload failMsgPayload = httpAuthResponse.as(FailMessagePayload.class);
+    @Test(groups = {"Regression", "Product"},
+          dataProvider = "productWithEmptyTitle", dataProviderClass = TestDataProvider.class)
+    @TestCase(id = "API_PROD_009", name = "Create product with empty title")
+    public void createProductWithEmptyTitle(ProductUser productWithEmptyTitle) {
 
-		// Validate JSON schema
-		JsonSchema.validate(httpAuthResponse, ProductExpected.ERROR_SCHEMA_PATH);
+        // Send request
+        Response httpAuthResponse = productService.createProduct(productWithEmptyTitle);
 
-		// Validate response body
-		softAssertion.assertEquals(failMsgPayload.getMessage(), ProductExpected.PRODUCT_TITLE_IS_REQUIRED);
-		softAssertion.assertAll();
+        // Validate status code and response headers
+        httpAuthResponse.then().spec(BaseService.badRequestResponse());
 
-	}
-	
-	
-	@Test(groups = {"Regression", "Product" }, description = "API_PROD_010: Create product with negative price",
-			dataProvider = "productWithNegativePrice", dataProviderClass = TestDataProvider.class)
-	public void createProductWithNegativePrice(ProductUser productWithNegativePrice) {
-		
-		// Send request    
-		Response httpAuthResponse = productService.createProduct(productWithNegativePrice);
+        // Deserialization
+        FailMessagePayload failMsgPayload = httpAuthResponse.as(FailMessagePayload.class);
 
-		// Validate status code and response headers
-		httpAuthResponse.then().spec(BaseService.badRequestResponse());
+        // Validate JSON schema
+        JsonSchema.validate(httpAuthResponse, ProductExpected.ERROR_SCHEMA_PATH);
 
-		// Deserialization
-		FailMessagePayload failMsgPayload = httpAuthResponse.as(FailMessagePayload.class);
+        // Validate response body
+        softAssertion.assertEquals(failMsgPayload.getMessage(), ProductExpected.PRODUCT_TITLE_IS_REQUIRED);
+        softAssertion.assertAll();
+    }
 
-		// Validate JSON schema
-		JsonSchema.validate(httpAuthResponse, ProductExpected.ERROR_SCHEMA_PATH);
+    @Test(groups = {"Regression", "Product"},
+          dataProvider = "productWithNegativePrice", dataProviderClass = TestDataProvider.class)
+    @TestCase(id = "API_PROD_010", name = "Create product with negative price")
+    public void createProductWithNegativePrice(ProductUser productWithNegativePrice) {
 
-		// Validate response body
-		softAssertion.assertEquals(failMsgPayload.getMessage(), ProductExpected.PRICE_GRATHER_THAN_0);
-		softAssertion.assertAll();
-	}
-	
-	
+        // Send request
+        Response httpAuthResponse = productService.createProduct(productWithNegativePrice);
+
+        // Validate status code and response headers
+        httpAuthResponse.then().spec(BaseService.badRequestResponse());
+
+        // Deserialization
+        FailMessagePayload failMsgPayload = httpAuthResponse.as(FailMessagePayload.class);
+
+        // Validate JSON schema
+        JsonSchema.validate(httpAuthResponse, ProductExpected.ERROR_SCHEMA_PATH);
+
+        // Validate response body
+        softAssertion.assertEquals(failMsgPayload.getMessage(), ProductExpected.PRICE_GRATHER_THAN_0);
+        softAssertion.assertAll();
+    }
 }

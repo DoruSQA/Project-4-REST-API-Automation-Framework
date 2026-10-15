@@ -9,7 +9,9 @@
 ![Lombok](https://img.shields.io/badge/Lombok-Boilerplate%20Reduction-red)
 ![CI](https://github.com/DoruSQA/Project-4-REST-API-Automation-Framework/actions/workflows/manual-module-testing.yml/badge.svg)
 
-> **Note:** This project is part of my personal QA Automation portfolio.
+> **Note 1:** Some framework components are maintained as JAR dependency.
+
+> **Note 2:** This project is part of my personal QA Automation portfolio.
 
 ## Table of Contents
 

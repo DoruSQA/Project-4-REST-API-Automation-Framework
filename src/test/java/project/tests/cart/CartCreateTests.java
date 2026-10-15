@@ -2,6 +2,7 @@ package project.tests.cart;
 
 import org.testng.annotations.Test;
 
+import codesmash.test_metadata.TestCase;
 import io.restassured.response.Response;
 import project.base.BaseService;
 import project.base.BaseTest;
@@ -13,120 +14,111 @@ import project.testdata.model.response.FailMessagePayload;
 import project.utils.JsonSchema;
 
 public class CartCreateTests extends BaseTest {
-	
-	
-	@Test(groups = { "Smoke", "Regression", "Cart" }, description = "API_CART_006: Create cart with valid details",
-			dataProvider = "userWithValidCartDetails", dataProviderClass = TestDataProvider.class)
-	public void createCartWithValidDetails(CartUser userWithValidCartDetails) {
-		
-		// Send request
-		Response httpAuthResponse = cartService.createProduct(userWithValidCartDetails);
 
-		// Validate status code and response headers via response specification
-		httpAuthResponse.then().spec(BaseService.createdResponse());
+    @Test(groups = {"Smoke", "Regression", "Cart"}, dataProvider = "userWithValidCartDetails", dataProviderClass = TestDataProvider.class)
+    @TestCase(id = "API_CART_006", name = "Create cart with valid details")
+    public void createCartWithValidDetails(CartUser userWithValidCartDetails) {
 
-		// Deserialization
-		CreateCartPayload createCartPayload = httpAuthResponse.as(CreateCartPayload.class);
+        // Send request
+        Response httpAuthResponse = cartService.createProduct(userWithValidCartDetails);
 
-		// Validate JSON schema
-		JsonSchema.validate(httpAuthResponse, CartExpected.CREATE_CART_SCHEMA_PATH);
+        // Validate status code and response headers via response specification
+        httpAuthResponse.then().spec(BaseService.createdResponse());
 
-		// Validate response body
-		softAssertion.assertNotNull(createCartPayload.getId());
-		softAssertion.assertTrue(createCartPayload.isCreated());
-		softAssertion.assertAll();
-		
-	}
-	
-	@Test(groups = {"Regression", "Cart" }, description = "API_CART_007: Create cart with multiple products", 
-			dataProvider = "userWithMultipleProducts", dataProviderClass = TestDataProvider.class)
-	public void createCartWithMultipleProducts(CartUser userWithMultipleProducts) {
-		
-		// Send request
-		Response httpAuthResponse = cartService.createProduct(userWithMultipleProducts);
+        // Deserialization
+        CreateCartPayload createCartPayload = httpAuthResponse.as(CreateCartPayload.class);
 
-		// Validate status code and response headers
-		httpAuthResponse.then().spec(BaseService.createdResponse());
+        // Validate JSON schema
+        JsonSchema.validate(httpAuthResponse, CartExpected.CREATE_CART_SCHEMA_PATH);
 
-		// Deserialization
-		CreateCartPayload createCartPayload = httpAuthResponse.as(CreateCartPayload.class);
+        // Validate response body
+        softAssertion.assertNotNull(createCartPayload.getId());
+        softAssertion.assertTrue(createCartPayload.isCreated());
+        softAssertion.assertAll();
+    }
 
-		// Validate JSON schema
-		JsonSchema.validate(httpAuthResponse, CartExpected.CREATE_CART_SCHEMA_PATH);
+    @Test(groups = {"Regression", "Cart"}, dataProvider = "userWithMultipleProducts", dataProviderClass = TestDataProvider.class)
+    @TestCase(id = "API_CART_007", name = "Create cart with multiple products")
+    public void createCartWithMultipleProducts(CartUser userWithMultipleProducts) {
 
-		// Validate response body
-		softAssertion.assertNotNull(createCartPayload.getId());
-		softAssertion.assertTrue(createCartPayload.getProducts().size()>=2);
-		softAssertion.assertAll();
-		
-	}
-	
-	@Test(groups = {"Regression", "Cart" }, description = "API_CART_008: Create cart with negative product quantity",
-			dataProvider = "userWithNegativeProductQuantity", dataProviderClass = TestDataProvider.class)
-	public void createCartWithNegativeProductQuantity(CartUser userWithNegativeProductQuantity) {
-			
-		// Send request
-		Response httpAuthResponse = cartService.createProduct(userWithNegativeProductQuantity);
+        // Send request
+        Response httpAuthResponse = cartService.createProduct(userWithMultipleProducts);
 
-		// Validate status code and response headers
-		httpAuthResponse.then().spec(BaseService.badRequestResponse());
+        // Validate status code and response headers
+        httpAuthResponse.then().spec(BaseService.createdResponse());
 
-		// Deserialization
-		FailMessagePayload failMsgPayload = httpAuthResponse.as(FailMessagePayload.class);
+        // Deserialization
+        CreateCartPayload createCartPayload = httpAuthResponse.as(CreateCartPayload.class);
 
-		// Validate JSON schema
-		JsonSchema.validate(httpAuthResponse, CartExpected.ERROR_SCHEMA_PATH);
+        // Validate JSON schema
+        JsonSchema.validate(httpAuthResponse, CartExpected.CREATE_CART_SCHEMA_PATH);
 
-		// Validate response body
-		softAssertion.assertEquals(failMsgPayload.getMessage(), CartExpected.QUANTITY_GRATHER_THAN_0);
-		softAssertion.assertAll();
-		
-			
-	}
-	
-	@Test(groups = {"Regression", "Cart" }, description = "API_CART_009: Create cart with empty user ID",
-			dataProvider = "userWithEmptyUserID", dataProviderClass = TestDataProvider.class)
-	public void createCartWithEmptyUserID(CartUser userWithEmptyUserID) {	
-		
-		// Send request
-		Response httpAuthResponse = cartService.createProduct(userWithEmptyUserID);
+        // Validate response body
+        softAssertion.assertNotNull(createCartPayload.getId());
+        softAssertion.assertTrue(createCartPayload.getProducts().size() >= 2);
+        softAssertion.assertAll();
+    }
 
-		// Validate status code and response headers
-		httpAuthResponse.then().spec(BaseService.badRequestResponse());
+    @Test(groups = {"Regression", "Cart"}, dataProvider = "userWithNegativeProductQuantity", dataProviderClass = TestDataProvider.class)
+    @TestCase(id = "API_CART_008", name = "Create cart with negative product quantity")
+    public void createCartWithNegativeProductQuantity(CartUser userWithNegativeProductQuantity) {
 
-		// Deserialization
-		FailMessagePayload failMsgPayload = httpAuthResponse.as(FailMessagePayload.class);
+        // Send request
+        Response httpAuthResponse = cartService.createProduct(userWithNegativeProductQuantity);
 
-		// Validate JSON schema
-		JsonSchema.validate(httpAuthResponse, CartExpected.ERROR_SCHEMA_PATH);
+        // Validate status code and response headers
+        httpAuthResponse.then().spec(BaseService.badRequestResponse());
 
-		// Validate response body
-		softAssertion.assertEquals(failMsgPayload.getMessage(), CartExpected.USER_ID_IS_REQUIRED);
-		softAssertion.assertAll();
-		
-			
-	}
-	
-	@Test(groups = {"Regression", "Cart" }, description = "API_CART_010: Create cart with empty products",
-			dataProvider = "userWIthEmptyCart", dataProviderClass = TestDataProvider.class)
-	public void createCartWithEmptyProducts(CartUser userWIthEmptyCart) {	
-		
-		// Send request
-		Response httpAuthResponse = cartService.createProduct(userWIthEmptyCart);
+        // Deserialization
+        FailMessagePayload failMsgPayload = httpAuthResponse.as(FailMessagePayload.class);
 
-		// Validate status code and response headers
-		httpAuthResponse.then().spec(BaseService.badRequestResponse());
+        // Validate JSON schema
+        JsonSchema.validate(httpAuthResponse, CartExpected.ERROR_SCHEMA_PATH);
 
-		// Deserialization
-		FailMessagePayload failMsgPayload = httpAuthResponse.as(FailMessagePayload.class);
+        // Validate response body
+        softAssertion.assertEquals(failMsgPayload.getMessage(), CartExpected.QUANTITY_GRATHER_THAN_0);
+        softAssertion.assertAll();
+    }
 
-		// Validate JSON schema
-		JsonSchema.validate(httpAuthResponse, CartExpected.ERROR_SCHEMA_PATH);
+    @Test(groups = {"Regression", "Cart"}, dataProvider = "userWithEmptyUserID", dataProviderClass = TestDataProvider.class)
+    @TestCase(id = "API_CART_009", name = "Create cart with empty user ID")
+    public void createCartWithEmptyUserID(CartUser userWithEmptyUserID) {
 
-		// Validate response body
-		softAssertion.assertEquals(failMsgPayload.getMessage(), CartExpected.MINIMUM_ONE_PRODUCT_REQUIRED);
-		softAssertion.assertAll();
-		
-	}
-	
+        // Send request
+        Response httpAuthResponse = cartService.createProduct(userWithEmptyUserID);
+
+        // Validate status code and response headers
+        httpAuthResponse.then().spec(BaseService.badRequestResponse());
+
+        // Deserialization
+        FailMessagePayload failMsgPayload = httpAuthResponse.as(FailMessagePayload.class);
+
+        // Validate JSON schema
+        JsonSchema.validate(httpAuthResponse, CartExpected.ERROR_SCHEMA_PATH);
+
+        // Validate response body
+        softAssertion.assertEquals(failMsgPayload.getMessage(), CartExpected.USER_ID_IS_REQUIRED);
+        softAssertion.assertAll();
+    }
+
+    @Test(groups = {"Regression", "Cart"}, dataProvider = "userWIthEmptyCart", dataProviderClass = TestDataProvider.class)
+    @TestCase(id = "API_CART_010", name = "Create cart with empty products")
+    public void createCartWithEmptyProducts(CartUser userWIthEmptyCart) {
+
+        // Send request
+        Response httpAuthResponse = cartService.createProduct(userWIthEmptyCart);
+
+        // Validate status code and response headers
+        httpAuthResponse.then().spec(BaseService.badRequestResponse());
+
+        // Deserialization
+        FailMessagePayload failMsgPayload = httpAuthResponse.as(FailMessagePayload.class);
+
+        // Validate JSON schema
+        JsonSchema.validate(httpAuthResponse, CartExpected.ERROR_SCHEMA_PATH);
+
+        // Validate response body
+        softAssertion.assertEquals(failMsgPayload.getMessage(), CartExpected.MINIMUM_ONE_PRODUCT_REQUIRED);
+        softAssertion.assertAll();
+    }
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 
+import codesmash.test_metadata.TestCase;
 import io.restassured.response.Response;
 import project.base.BaseService;
 import project.base.BaseTest;
@@ -14,133 +15,128 @@ import project.testdata.model.response.ProductPayload;
 import project.utils.JsonSchema;
 
 public class ProductGetTests extends BaseTest {
-	
-	
-	@Test(groups = {"Smoke", "Regression", "Product" }, description = "API_PROD_001: Get all products")
-	public void getAllProducts() {
-		
-		// Send request
-		Response httpAuthResponse = productService.getAllProducts();
 
-		// Validate status code and response headers via response specification
-		httpAuthResponse.then().spec(BaseService.okResponse());
+    @Test(groups = {"Smoke", "Regression", "Product"})
+    @TestCase(id = "API_PROD_001", name = "Get all products")
+    public void getAllProducts() {
 
-		// Deserialization
-		List<ProductPayload> products = httpAuthResponse.jsonPath().getList("products", ProductPayload.class);
+        // Send request
+        Response httpAuthResponse = productService.getAllProducts();
 
-		// Validate response body
-		softAssertion.assertTrue(!products.isEmpty());
-		softAssertion.assertNotNull(httpAuthResponse.jsonPath().getInt("total"));
-		softAssertion.assertAll();
+        // Validate status code and response headers via response specification
+        httpAuthResponse.then().spec(BaseService.okResponse());
 
-	}
-	
-	@Test(groups = { "Smoke", "Regression", "Product" }, description = "API_US_002: Get product with valid existing ID")
-	public void getProductWithValidExistingID() { // valid ID range from 1-200
-		
-		// Send request
-		Response httpAuthResponse = productService.getProductById("1");
+        // Deserialization
+        List<ProductPayload> products = httpAuthResponse.jsonPath().getList("products", ProductPayload.class);
 
-		// Validate status code and response headers
-		httpAuthResponse.then().spec(BaseService.okResponse());
+        // Validate response body
+        softAssertion.assertTrue(!products.isEmpty());
+        softAssertion.assertNotNull(httpAuthResponse.jsonPath().getInt("total"));
+        softAssertion.assertAll();
+    }
 
-		// Deserialization
-		ProductPayload productPayload = httpAuthResponse.as(ProductPayload.class);
+    @Test(groups = {"Smoke", "Regression", "Product"})
+    @TestCase(id = "API_PROD_002", name = "Get product with valid existing ID")
+    public void getProductWithValidExistingID() { // Valid ID range: 1-200
 
-		// Validation 2: On JSON Schema
-		JsonSchema.validate(httpAuthResponse, ProductExpected.GET_PRODUCT_SCHEMA_PATH);
+        // Send request
+        Response httpAuthResponse = productService.getProductById("1");
 
-		// Validate response body
-		softAssertion.assertEquals(productPayload.getId(), Integer.parseInt("1"), "ID is not matching");
-		softAssertion.assertNotNull(productPayload.getTitle(), "Title value is missing");
-		softAssertion.assertNotNull(productPayload.getDescription(), "Product value is missing");
-		softAssertion.assertAll();
+        // Validate status code and response headers
+        httpAuthResponse.then().spec(BaseService.okResponse());
 
-	}
-	
-	@Test(groups = {"Regression", "Product" }, description = "API_US_003: Get product with non existing ID")
-	public void getProductWithNonExistingID() {
-		
-		// Send request
-		Response httpAuthResponse = productService.getProductById(TestDataGenerator.randomNumericValue(10));
+        // Deserialization
+        ProductPayload productPayload = httpAuthResponse.as(ProductPayload.class);
 
-		// Validate status code and response headers
-		httpAuthResponse.then().spec(BaseService.notFoundResponse());
+        // Validate JSON schema
+        JsonSchema.validate(httpAuthResponse, ProductExpected.GET_PRODUCT_SCHEMA_PATH);
 
-		// Deserialization
-		FailMessagePayload failMsgPayload = httpAuthResponse.as(FailMessagePayload.class);
+        // Validate response body
+        softAssertion.assertEquals(productPayload.getId(), Integer.parseInt("1"), "ID is not matching");
+        softAssertion.assertNotNull(productPayload.getTitle(), "Title value is missing");
+        softAssertion.assertNotNull(productPayload.getDescription(), "Product value is missing");
+        softAssertion.assertAll();
+    }
 
-		// Validation 2: On JSON Schema
-		JsonSchema.validate(httpAuthResponse, ProductExpected.ERROR_SCHEMA_PATH);
+    @Test(groups = {"Regression", "Product"})
+    @TestCase(id = "API_PROD_003", name = "Get product with non existing ID")
+    public void getProductWithNonExistingID() {
 
-		// Validate response body
-		softAssertion.assertNotNull(failMsgPayload.getMessage(), "Error message is missing");
-		softAssertion.assertTrue(failMsgPayload.getMessage().contains("not found"),"Error message doesn't contain the expected text: '...not found'");
-		softAssertion.assertAll();
+        // Send request
+        Response httpAuthResponse = productService.getProductById(TestDataGenerator.randomNumericValue(10));
 
-	}
-	
+        // Validate status code and response headers
+        httpAuthResponse.then().spec(BaseService.notFoundResponse());
 
-	@Test(groups = {"Regression", "Product" }, description = "API_US_004: Get product with invalid ID format")
-	public void getProductWithInvalidIDFormat() {
-		
-		// Send request
-		Response httpAuthResponse = productService.getProductById(TestDataGenerator.randomCharacters(5));
+        // Deserialization
+        FailMessagePayload failMsgPayload = httpAuthResponse.as(FailMessagePayload.class);
 
-		// Validate status code and response headers
-		httpAuthResponse.then().spec(BaseService.badRequestResponse());
+        // Validate JSON schema
+        JsonSchema.validate(httpAuthResponse, ProductExpected.ERROR_SCHEMA_PATH);
 
-		// Deserialization
-		FailMessagePayload failMsgPayload = httpAuthResponse.as(FailMessagePayload.class);
+        // Validate response body
+        softAssertion.assertNotNull(failMsgPayload.getMessage(), "Error message is missing");
+        softAssertion.assertTrue(failMsgPayload.getMessage().contains("not found"), "Error message doesn't contain the expected text: '...not found'");
+        softAssertion.assertAll();
+    }
 
-		// Validation 2: On JSON Schema
-		JsonSchema.validate(httpAuthResponse, ProductExpected.ERROR_SCHEMA_PATH);
+    @Test(groups = {"Regression", "Product"})
+    @TestCase(id = "API_PROD_004", name = "Get product with invalid ID format")
+    public void getProductWithInvalidIDFormat() {
 
-		// Validate response body
-		softAssertion.assertNotNull(failMsgPayload.getMessage(), "Error message is missing");
-		softAssertion.assertTrue(failMsgPayload.getMessage().contains("invalid format"),"Error message doesn't contain the expected text: '...invalid format'");
-		softAssertion.assertAll();
+        // Send request
+        Response httpAuthResponse = productService.getProductById(TestDataGenerator.randomCharacters(5));
 
-	}
-	
-	
-	@Test(groups = {"Regression", "Product" }, description = "API_US_005: Search product with non existing title")
-	public void searchProductWithNonExistingTitle() {
-		
-		// Send request
-		Response httpAuthResponse = productService.getProductByTitle(TestDataGenerator.randomCharacters(5));
+        // Validate status code and response headers
+        httpAuthResponse.then().spec(BaseService.badRequestResponse());
 
-		// Validate status code and response headers
-		httpAuthResponse.then().spec(BaseService.okResponse());
+        // Deserialization
+        FailMessagePayload failMsgPayload = httpAuthResponse.as(FailMessagePayload.class);
 
-		// Deserialization
-		List<ProductPayload> productsWithThatTitle = httpAuthResponse.jsonPath().getList("products", ProductPayload.class);
+        // Validate JSON schema
+        JsonSchema.validate(httpAuthResponse, ProductExpected.ERROR_SCHEMA_PATH);
 
-		// Validate response body
-		softAssertion.assertTrue(productsWithThatTitle.isEmpty(), "Product details should not be empty");
-		softAssertion.assertEquals(httpAuthResponse.jsonPath().getInt("total"),0);
-		softAssertion.assertAll();
+        // Validate response body
+        softAssertion.assertNotNull(failMsgPayload.getMessage(), "Error message is missing");
+        softAssertion.assertTrue(failMsgPayload.getMessage().contains("invalid format"), "Error message doesn't contain the expected text: '...invalid format'");
+        softAssertion.assertAll();
+    }
 
-	}
-	
-	@Test(groups = {"Regression", "Product" }, description = "API_US_006: Search product with empty search term")
-	public void searchProductWithEmptySearchTerm() {
-		
-		// Send request
-		Response httpAuthResponse = productService.getProductByTitle(TestDataGenerator.emptyString());
+    @Test(groups = {"Regression", "Product"})
+    @TestCase(id = "API_PROD_005", name = "Search product with non existing title")
+    public void searchProductWithNonExistingTitle() {
 
-		// Validate status code and response headers
-		httpAuthResponse.then().spec(BaseService.okResponse());
+        // Send request
+        Response httpAuthResponse = productService.getProductByTitle(TestDataGenerator.randomCharacters(5));
 
-		// Deserialization
-		List<ProductPayload> productsWithThatTitle = httpAuthResponse.jsonPath().getList("products", ProductPayload.class);
+        // Validate status code and response headers
+        httpAuthResponse.then().spec(BaseService.okResponse());
 
-		// Validate response body
-		softAssertion.assertTrue(productsWithThatTitle.isEmpty(), "Product details should not be empty");
-		softAssertion.assertEquals(httpAuthResponse.jsonPath().getInt("total"),0);
-		softAssertion.assertAll();
+        // Deserialization
+        List<ProductPayload> productsWithThatTitle = httpAuthResponse.jsonPath().getList("products", ProductPayload.class);
 
-	}
-	
-	
+        // Validate response body
+        softAssertion.assertTrue(productsWithThatTitle.isEmpty(), "Product details should not be empty");
+        softAssertion.assertEquals(httpAuthResponse.jsonPath().getInt("total"), 0);
+        softAssertion.assertAll();
+    }
+
+    @Test(groups = {"Regression", "Product"})
+    @TestCase(id = "API_PROD_006", name = "Search product with empty search term")
+    public void searchProductWithEmptySearchTerm() {
+
+        // Send request
+        Response httpAuthResponse = productService.getProductByTitle(TestDataGenerator.emptyString());
+
+        // Validate status code and response headers
+        httpAuthResponse.then().spec(BaseService.okResponse());
+
+        // Deserialization
+        List<ProductPayload> productsWithThatTitle = httpAuthResponse.jsonPath().getList("products", ProductPayload.class);
+
+        // Validate response body
+        softAssertion.assertTrue(productsWithThatTitle.isEmpty(), "Product details should not be empty");
+        softAssertion.assertEquals(httpAuthResponse.jsonPath().getInt("total"), 0);
+        softAssertion.assertAll();
+    }
 }
