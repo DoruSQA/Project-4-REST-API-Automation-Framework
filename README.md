@@ -30,7 +30,9 @@
 - Product
 - Cart
 
-Both positive and negative scenarios are automated, including validation and boundary testing.
+Both **positive** and **negative scenarios** are automated, including response verification and boundary testing.
+
+Application under test: [CodeSmashAPI Demo](https://dummyapi.codesmash.in)
 
 ---
 
